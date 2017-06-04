@@ -1,0 +1,52 @@
+#
+#Denis Doci
+#
+#doci2
+#
+#
+.pos 0
+irmovq Stack, %rbp
+rrmovq %rbp, %rsp 
+irmovq ele1, %rdi
+call sum_list    
+halt   
+	.align 8
+ele1:
+	.quad 0x00d
+	.quad ele2
+ele2:
+	.quad 0x0e0
+	.quad ele3
+ele3:
+	.quad 0xf00
+	.quad 0
+
+sum_list:
+	pushq %rbp
+	rrmovq  %rsp, %rbp
+	rmmovq  %rdi, -24(%rbp)
+	irmovq  $0, %r10
+	rmmovq  %r10, -8(%rbp)
+	jmp L2
+L3:
+	mrmovq -24(%rbp), %rax
+	mrmovq  (%rax), %rax
+	mrmovq  -8(%rbp), %rdx
+	addq	%rax, %rdx
+	rmmovq  %rdx, -8(%rbp)
+	mrmovq -24(%rbp), %rax
+	mrmovq 8(%rax), %rax
+	rmmovq %rax, -24(%rbp)
+
+L2:
+	irmovq  $0, %r10
+	mrmovq -24(%rbp), %r8
+	subq	%r10, %r8
+	jne	L3
+	mrmovq -8(%rbp), %rax
+	popq    %rbp
+	ret
+
+	.pos 0x200
+Stack:
+

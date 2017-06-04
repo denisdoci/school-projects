@@ -1,0 +1,138 @@
+Name: Denis Doci
+      663855180
+      doci2
+
+-----------------------------------------------
+
+Describe what augmentations to the bst data structures you made to complete the 
+project -- i.e., what typedefs did you change and why?
+
+What I changed to the BST data structure was the addition of another integer 
+variable. This variable represents the size of the BST. The purpose of doing
+this was to ensure a constant runtime ( O(1) ) whenever a call to find the
+size of the BST occurs. 
+
+
+-----------------------------------------------
+Which functions did you need to modify as a result of the augmentations from the previous
+question?  
+
+To implement this size variable correctly, the insert and delete function had to modified.
+The modification within these function was to increment the size variable whenever a
+call to insert was made, and decrement the size variable whenever a call to delete was
+made.
+
+
+
+-----------------------------------------------
+For each function from the previous question, how did you ensure that the (asymptotic) runtime 
+remained the same?
+
+The runtime of these functions remains unchanged. It was asympototic before the change and its still 
+asymptotic  after. This is because the only change to the functions was an incrementation or 
+decrementation of a variable which has no effect on the actual runtime. 
+
+
+
+
+
+
+-----------------------------------------------
+For each of the assigned functions, tell us how far you got using the choices 0-5 and
+answer the given questions.  
+
+
+0:  didn't get started
+1:  started, but far from working
+2:  have implementation but only works for simple cases
+3:  finished and I think it works most of the time but not sure the runtime req is met. 
+4:  finished and I think it works most of the time and I'm sure my design leads to 
+       the correct runtime (even if I still have a few bugs).
+5:  finished and confident on correctness and runtime requirements
+
+
+bst_to_array level of completion:  ____5____  
+
+
+-----------------------------------------------
+bst_get_ith level of completion:  ____5_____  
+
+    How did you ensure O(h) runtime?
+
+    ANSWER:  I did this through a left first recursive transversal. Decrementing the i that was passed
+	     into the function each time ( basically a backwards iteration with recursion). Then if necessary
+	     it would do the right recursion. Based on this transversal the function would be running at a 
+	     O(h) runtime. 
+
+-----------------------------------------------
+bst_get_nearest level of completion:  ____5_____  
+
+    How did you ensure O(h) runtime?
+
+    ANSWER:  This is similar to the geq and leq functions. If you have a value that is less than
+	      the x if you go left you only increase the difference between them so you only transverse right.
+	      Similarly if you have a value greater than x you only transverse x to make the distance smaller.
+	      Therefore, the complete transversal would only span the height of the tree, resulting in a 
+	      O(h) runtime.
+  
+-----------------------------------------------
+bst_num_geq level of completion:  ______5_____  
+
+    How did you ensure O(h) runtime?
+
+    ANSWER:  I ensured O(h) runtime in this function because the function
+	     will only need to transverse the height of the BST. It does not iterate
+	     through the entire BST. When it finds something greater than or equal to the passed value
+	     it will transverse right, otherwise it will transverse left. So if you draw out the transversal,
+	     it will at most only go through the height to the tree. 
+ 
+-----------------------------------------------
+bst_num_leq level of completion:  ______5______
+
+    How did you ensure O(h) runtime?
+
+    ANSWER: I ensured O(h) runtime in this function because the function
+	    will only need to transverse the height of the BST. It does not iterate
+	    through the entire BST. When it finds something less than or equal to the passed value
+	    it will transverse left, otherwise it will transverse right. So if you draw out the transversal,
+	    it will at most only go through the height to the tree. 
+-----------------------------------------------
+EXTRA CREDIT FUNCTIONS:  
+
+Extra credit functions not attempted. 
+
+bst_min level of completion:  _____0_______
+
+    How did you ensure O(1) runtime?
+
+    ANSWER: NO ATTEMPT
+
+-----------------------------------------------
+bst_max level of completion:  _____0_______
+
+    How did you ensure O(1) runtime?
+
+    ANSWER: NO ATTEMPT
+
+----------------------------------------------
+
+Write a few sentences describing how you tested your solutions.  Are there
+any tests that in retrospect you wish you'd done?
+
+For leq and geq I ran four tests:
+	case 1: null bst
+	case 2: given value in smaller than everything in bst
+	case 3: given value that would fall in the middle of bst
+	case 4: given value greater than anything in bst
+
+for the get ith function:
+	case 1: empty bst
+	case 2: i out of range 
+	case 3: “normal” i
+
+for the bst_to_array I honestly just used the given bst’s in the test.c file and ran them.
+
+for bst_get_nearest : same test cases as leq and geq
+
+In retrospect the only test case I wish I had done was a very large bst for the bst_to_array to see if my memory
+allocation was correct. 

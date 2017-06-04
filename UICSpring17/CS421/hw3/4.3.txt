@@ -1,0 +1,20 @@
+Problem 4.3:
+
+Obviously, I couldn’t get this to work for my problem.
+That being said I found some online statistics for a similar problem
+so I would like to use that for analysis to answer this question.
+They used two wikipedia articles one for the big bang and the other
+for Brittany Spears. When they received the probabilities they sorted 
+all the words by the largest probability. One thing that was obvious was that
+the most common words were in fact words that were articles and pronouns. 
+I.E. the, they, he, her, a, an. This is not really unexpected as these words
+are necessary to compose a sentence on the whole. But with the least common words,
+you had a much more descriptive view of what the actual articles were about. 
+
+Example 
+Big bang: universe, proton, dark, matter
+Brittany Spears: Kentwood, Louisiana, glory, vegas
+
+You get a much more specific description of each article. Although those words 
+as a whole don’t give you a full description you do get a more rounded view of
+what these articles actually mean.

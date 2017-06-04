@@ -1,0 +1,90 @@
+Question 1:
+Answer:
+
+R=6, S=4, T=5;
+
+First lets look at the value that gets returned. This values is 960, and
+this represents the total byte size of the 3D array A. A is an array of 
+long ints and each long int has a byte size of 8. This means that there
+are 120 long ints in array A. From this we can get the equation 
+R*S*T = 120. (As a quick check 6*4*5=120 so this seems to be a reasonable result)
+
+The offset into memory for a three dimentional array can be simplified to the equation:
+Address = Base + ((depthindex*col_size+colindex) * row_size + rowindex) * Element_Size
+//derived this equation based on book 
+Or for this problem specifically:
+Address = A +((h*S)+i)*T+j)
+This is the computation that is done to figure out the return address so if we examine the 
+leal functions we can decode S and T. We know h gets stored in %rdi, i stored in %rsi, and
+j stored in %rdx. From this we can go through the functions to develop these equations
+	leaq	(%rdi,%rdi,4), %rdi //4h+h=5h
+	leaq	(%rsi,%rsi,4), %rcx // 4i+i=5i
+	movslq	%edx, %rdx // storing j
+	leaq	(%rcx,%rdi,4), %rcx //5i+20h
+	addq	%rcx, %rdx   //5i + 20h + j
+Or ((4*h)+i)*5)+j
+From this we can conclude that S=4 and T=5
+And since we know R*S*T = 120 and S*T=20 we can conclude that R=6.
+
+Question 2:
+
+Stack information was gathered from compiling linked_list.c (gcc -g linked_list.c)
+Then running a.out with gdb and a .txt file that contained the following 
+
+hw4.txt:
+mary
+had
+a
+little
+lamb
+1. Stack until node contains a pointer to string lamb. 
+
+(gdb) p *c_node
+$1 = {str = 0x6020b0 "a\n", next = 0x602050, size = 2, first = 97 'a'}
+(gdb) p $rsp
+$2 = (void *) 0x7fffffffe9f0
+(gdb) p $rbp
+$4 = (void *) 0x7fffffffea00
+(gdb) p $rip
+$5 = (void (*)()) 0x400798 <r_print+12>
+
+(gdb) p *c_node
+$6 = {str = 0x602070 "had\n", next = 0x602110, size = 4, first = 104 'h'}
+(gdb) p $rbp
+$7 = (void *) 0x7fffffffe9e0
+(gdb) p $rip
+$8 = (void (*)()) 0x400798 <r_print+12>
+
+$9 = {str = 0x602130 "lamb\n", next = 0x6020d0, size = 5, first = 108 'l'}
+(gdb) p $rbp
+$10 = (void *) 0x7fffffffe9c0
+(gdb) p $rip
+$11 = (void (*)()) 0x400798 <r_print+12>
+
+
+2. Continued description of stack until base case is reached (i.e. after mary has been called)
+
+$4 = {str = 0x6020f0 "little\n", next = 0x602010, size = 7, first = 108 'l'}(gdb) p $rbp
+$5 = (void *) 0x7fffffffe9a0
+(gdb) p $rip
+$6 = (void (*)()) 0x400798 <r_print+12>
+
+(gdb) p *c_node
+$7 = {str = 0x602030 "mary\n", next = 0x0, size = 5, first = 109 'm'}
+(gdb) p $rbp
+$8 = (void *) 0x7fffffffe980
+(gdb) p $rip
+$9 = (void (*)()) 0x400798 <r_print+12>
+
+3.
+There is a break point set at line 26 which is the return line of the function.
+This is the stack right before the function is returned. 
+
+Breakpoint 2, r_print (c_node=0x0) at hw4p2.c:26
+26	    return 0;
+(gdb) p *c_node
+Cannot access memory at address 0x0
+(gdb) p $rbp
+$10 = (void *) 0x7fffffffe960
+(gdb) p $rip
+$11 = (void (*)()) 0x4007cd <r_print+65> 

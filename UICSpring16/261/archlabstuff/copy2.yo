@@ -1,0 +1,72 @@
+                            | #
+                            | #
+                            | #  Denis Doci
+                            | #
+                            | #  doci2
+                            | #
+                            | #
+                            | #  copy file with only 2 elements in both source and desitination
+                            | #  output in %rax should contain
+0x000:                      | .pos 0
+0x000: 30f50003000000000000 | irmovq Stack, %rbp
+0x00a: 2054                 | rrmovq %rbp, %rsp
+0x00c: 30f73800000000000000 | irmovq src, %rdi
+0x016: 30f64800000000000000 | irmovq dest, %rsi
+0x020: 30f20200000000000000 | irmovq $2, %rdx
+0x02a: 805800000000000000   | call   copy_block
+0x033: 00                   | halt
+                            | 
+0x038:                      | .align 8
+                            | # Source block
+0x038:                      | src:
+0x038: 0d00000000000000     | .quad 0x00d
+0x040: d000000000000000     | .quad 0x0d0
+                            | # Destination block
+0x048:                      | dest:
+0x048: 1101000000000000     | .quad 0x111
+0x050: 2202000000000000     | .quad 0x222
+                            | 
+0x058:                      | copy_block:
+0x058: a05f                 |         pushq  %rbp
+0x05a: 2045                 |         rrmovq %rsp, %rbp
+0x05c: 4075e8ffffffffffffff |         rmmovq %rdi, -24(%rbp)
+0x066: 4065e0ffffffffffffff |         rmmovq %rsi, -32(%rbp)
+0x070: 4025d8ffffffffffffff |         rmmovq %rdx,  -40(%rbp)
+0x07a: 30f80000000000000000 |         irmovq $0, %r8
+0x084: 4085f0ffffffffffffff |         rmmovq %r8, -16(%rbp)
+0x08e: 705301000000000000   |         jmp L9
+0x097:                      | L10:
+0x097: 5005e8ffffffffffffff |         mrmovq -24(%rbp), %rax
+0x0a1: 50000000000000000000 |         mrmovq (%rax), %rax
+0x0ab: 4005f8ffffffffffffff |         rmmovq %rax, -8(%rbp)
+0x0b5: 30fa0800000000000000 |         irmovq $8, %r10
+0x0bf: 5095e8ffffffffffffff |         mrmovq -24(%rbp), %r9
+0x0c9: 60a9                 |         addq   %r10,%r9
+0x0cb: 4095e8ffffffffffffff |         rmmovq %r9, -24(%rbp)
+0x0d5: 5005e0ffffffffffffff |         mrmovq -32(%rbp), %rax
+0x0df: 5025f8ffffffffffffff |         mrmovq -8(%rbp), %rdx
+0x0e9: 40200000000000000000 |         rmmovq %rdx,(%rax)
+0x0f3: 30fa0800000000000000 |         irmovq $8, %r10
+0x0fd: 5095e0ffffffffffffff |         mrmovq -32(%rbp), %r9
+0x107: 60a9                 |         addq   %r10,%r9
+0x109: 4095e0ffffffffffffff |         rmmovq %r9, -32(%rbp)
+0x113: 5005f8ffffffffffffff |         mrmovq -8(%rbp), %rax
+0x11d: 5035f0ffffffffffffff |         mrmovq -16(%rbp), %rbx
+0x127: 6303                 |         xorq   %rax, %rbx
+0x129: 4035f0ffffffffffffff |         rmmovq %rbx, -16(%rbp)
+0x133: 30f30100000000000000 |         irmovq $1, %rbx
+0x13d: 5015d8ffffffffffffff |         mrmovq -40(%rbp), %rcx
+0x147: 6131                 |         subq   %rbx, %rcx
+0x149: 4015d8ffffffffffffff |         rmmovq %rcx, -40(%rbp)
+                            | 
+0x153: 30f10000000000000000 | L9:     irmovq $0, %rcx
+0x15d: 5035d8ffffffffffffff |         mrmovq -40(%rbp), %rbx
+0x167: 6113                 |         subq   %rcx, %rbx
+0x169: 769700000000000000   |         jg     L10
+0x172: 5005f0ffffffffffffff |         mrmovq -16(%rbp), %rax
+0x17c: b05f                 |         popq %rbp
+0x17e: 90                   |         ret
+                            | 
+0x300:                      | .pos 0x300
+0x300:                      | Stack:
+                            | 

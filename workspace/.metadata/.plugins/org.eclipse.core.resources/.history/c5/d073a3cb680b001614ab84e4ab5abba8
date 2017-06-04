@@ -1,0 +1,17 @@
+package kkrawc6Proj7;
+
+
+abstract public class Creatures {
+  private boolean moved;
+  private int y;
+  private int x;
+  private int dayLastMoved;
+
+
+  public void move(){}
+  public void breed(){}
+  public void starved(){}
+}
+
+
+

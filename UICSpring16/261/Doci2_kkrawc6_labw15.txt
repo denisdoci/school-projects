@@ -1,0 +1,48 @@
+1.How many bytes are in the main memory?
+
+  4096 bytes
+
+2.How many bytes can the cache hold?
+
+  64 bytes
+
+3.How many blocks is the main memory divided into?
+
+  1024 blocks
+
+4.How many blocks from the main memory want to be placed into slot C in the cache?
+
+  64 blocks
+
+5.Consider the following addresses that are each reading a single byte and detail whether they result in a hit or a miss in the cache. If the address results in a hit, then state the value that gets sent to the processor. 0x923, 0xACE, 0x4FC, 0x032, 0x691
+	Binary		 Value
+0x923=  10 0100 1000 11   89
+OxACE=  10 1011 1011 10   miss
+0x4FC=  01 0011 1111 00   miss
+0x032=  00 0000 1100 10   miss
+0x691=  01 1010 0100 01   miss : tag not matched
+
+6.Now go back to the original cache state (ignore any changes the above reads may have caused), and list 5 addresses, that are in 5 different blocks, that all result in hits in the cache.
+
+  0110 0100 0000 = 0x640
+  0110 1100 1000 = 0x6C8
+  1100 0010 0000 = 0xC90
+  0011 0101 0100 = 0x354
+  0101 1001 1100 = 0x59c 
+
+7.Now go back to the original cache state (ignore any changes the above reads may have caused), and list 5 addresses, that are in 5 different blocks, that all result in misses in the cache, and do not require data to be removed from the cache.
+
+  0101 0100 0100 = 0x544
+  1101 1000 1100 = 0xDBC
+  1100 0101 1000 = 0xC58
+  1011 0110 0100 = 0xB64
+  0010 1110 1100 = 0x2EC
+
+8.Now go back to the original cache state (ignore any changes the above reads may have caused), and list 5 addresses, that are in 5 different blocks, that all result in misses in the cache and require data to be removed from the cache.
+
+0000 0000 0000 = 0x000
+0000 0000 1000 = 0x008
+0000 0001 0000 = 0x010
+0000 0001 0100 = 0x014
+0000 0001 1100 = 0x01C
+

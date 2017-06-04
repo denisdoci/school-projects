@@ -1,0 +1,12 @@
+NumCons: 2
+ColConst: $2
+Addition: + $2 $3
+Subtra: - $2 $3
+Multip: * $2 $3
+Division: / $2 $3
+LessThn: < $2 $3
+GreaterThn: > $3 $2
+Equal: = $3 $2
+AndOper: & $2 $3
+OROpera: | $2 $3
+NotOperator: ! $2 $3

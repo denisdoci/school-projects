@@ -1,0 +1,73 @@
+#
+#
+#  Denis Doci
+#
+#  doci2
+#
+#
+#  copy file with only 2 elements in both source and desitination
+#  output in %rax should contain 0x00000000000000dd
+#  should copy 64 bit of the values src into the memory dest 
+.pos 0
+irmovq Stack, %rbp
+rrmovq %rbp, %rsp
+irmovq src, %rdi
+irmovq dest, %rsi
+irmovq $2, %rdx
+call   copy_block
+halt
+
+.align 8
+# Source block
+src:
+.quad 0x00d
+.quad 0x0d0
+# Destination block
+dest:
+.quad 0x111
+.quad 0x222
+
+copy_block:
+        pushq  %rbp
+        rrmovq %rsp, %rbp
+        rmmovq %rdi, -24(%rbp)
+        rmmovq %rsi, -32(%rbp)
+        rmmovq %rdx,  -40(%rbp)
+        irmovq $0, %r8
+        rmmovq %r8, -16(%rbp)
+        jmp L9
+L10:
+        mrmovq -24(%rbp), %rax
+        mrmovq (%rax), %rax
+        rmmovq %rax, -8(%rbp)
+        irmovq $8, %r10
+        mrmovq -24(%rbp), %r9
+        addq   %r10,%r9
+        rmmovq %r9, -24(%rbp)
+        mrmovq -32(%rbp), %rax
+        mrmovq -8(%rbp), %rdx
+        rmmovq %rdx,(%rax)
+        irmovq $8, %r10
+        mrmovq -32(%rbp), %r9
+        addq   %r10,%r9
+        rmmovq %r9, -32(%rbp)
+        mrmovq -8(%rbp), %rax
+        mrmovq -16(%rbp), %rbx
+        xorq   %rax, %rbx
+        rmmovq %rbx, -16(%rbp)
+        irmovq $1, %rbx
+        mrmovq -40(%rbp), %rcx
+        subq   %rbx, %rcx
+        rmmovq %rcx, -40(%rbp)
+
+L9:     irmovq $0, %rcx
+        mrmovq -40(%rbp), %rbx
+        subq   %rcx, %rbx
+        jg     L10
+        mrmovq -16(%rbp), %rax
+        popq %rbp
+        ret
+
+.pos 0x300
+Stack:
+

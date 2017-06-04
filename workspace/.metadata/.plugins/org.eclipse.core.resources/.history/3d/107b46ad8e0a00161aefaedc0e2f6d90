@@ -1,0 +1,13 @@
+package project7;
+
+abstract public class animal {
+  private boolean moved;
+  private int x;
+  private int y;
+  private int dayLastMoved;
+
+  public void move(){}
+  public void breed(){}
+  public void starve(){}
+  public int getDayLastMoved(){return dayLastMoved;}
+}

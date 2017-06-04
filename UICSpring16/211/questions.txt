@@ -1,0 +1,50 @@
+Denis Doci
+Katarzyna Krawczyk
+
+
+1. A comparison of blocking.cc and obvious.cc in terms of their algorithmic complexity and cache-friendliness. Why did increasing the block size sometimes increase the miss rate?
+
+When looking at the obvious.cc it is more cache friendly than the blocking.cc program. 
+This is because blocking.cc goes through the matrix multiplication of the submatricies 
+initial where as the obvious.cc uses "loop fusion" (from book). Therefore, with the 
+obvious.cc, your are taking advantage of temporal locality. While increased block sizes typically reduces the 
+number of compulsory misses by taking advantage of spatial locality, at larger sizes they
+increase miss penalty. This is because larger block sizes mean fewer blocks will be
+in cache and this would increase capacity of misses. 
+
+2. What would be the optimal blockingFactor to use for matrix multiplication?
+
+The optimal blocking factor is the the square root of cache size. 
+
+3. A discussion of the significance of the results, given that all of the simulated caches were considerably smaller than current hardware caches.
+
+When looking at the table of the simulation of miss rates in cache sizes, the general rule is that
+as cache size increases the miss rate actually decreases. This is because the caches capcity has
+increased. Therefore, with current hardware caches being much larger than the simulated cache, it can
+be presumed that their miss rates are significantly lower than the simulated ones. 
+
+4. Does increased associativity always reduce the miss rate?
+
+Yes. In general increased associativity reduces miss rate. This is because
+Each set has more blocks, so there’s less chance of a conflict between two addresses.
+
+5.How are caches implemented in hardware? Why does the simulator insist that the block size, and the number of sets, must be a whole power of two? Is it always necessary to store the entire block address in the cache for identification purposes?
+
+Caches are implement within the processor of hardware. This is so the processor,
+whenever it does a new operation, doesnt have to reach into different parts of memory to
+finish the instruction. The reason the number of sets and block size nead to be a power of two
+is so that it can be represented as a whole number of bits. And no it is not always necessary to store 
+entire adresses. In fact most of the time they're shoretened. 
+
+6.Why does a main memory access involve a significant, fixed overhead? How can main memory systems be designed to support caches?
+
+Main memory access involves significant overhead because the CPU needs to be in sync with main memory to access
+it. This requires more time and power to acomplish and causes it to be slower in the accessing and
+transfering of data. Main memory systems can be designed to support caches by using DRAM with a fixed-width
+clocked bus that reads cache blocks. 
+
+7.What are the attractions of a multilevel caching strategy?
+
+The more cache levels we have, the more main memory can be reached from the cache itself. Therefore, we have more
+available accesing to main memory information accecable in the cache and thus we dont need to access main memeory
+as often. 

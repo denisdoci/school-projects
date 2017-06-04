@@ -1,0 +1,46 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh9980\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Number of times code created a stall:\
+Code created a stall 7 times\
+4 load use\
+1 misprediction\
+2 return stalls\
+\
+Instructions that caused the stall: \
+\
+Load use: \
+mrmovq (%rdi),%r10	# Get *start\
+addq %r10,%rax          # Add to sum\
+\
+This is done 4 times, 1 for each iteration of the loop.\
+\
+Return:\
+ret (main)\
+return (test)\
+\
+Misprediction:\
+\
+jne    loop             # Stop when 0\
+\
+since you always assume jump is taken, on the last iteration of the loop,\
+when the jump isn\'92t taken, you have a mispredict. \
+\
+CPI calculation:\
+instructions executed: 412 instructions total\
+\
+CPI = 1 + loadpenelty + mispredictpenelty + returnpenalty \
+\
+lp = 1*( 100/412) = 1*.2427 = .2427\
+ \
+mp= 2*( 1/412)  =   2*.00242718 = . 00485437\
+\
+rp =  3*( 2/412)  = 3 * .00485437 = .01456311\
+\
+CPI = 1 + .2427 + . 00485437 + .01456311 = 1.262113\
+\
+CPI = 1.262\
+}

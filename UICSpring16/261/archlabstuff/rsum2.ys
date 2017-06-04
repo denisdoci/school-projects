@@ -1,0 +1,56 @@
+#
+#
+# Denis Doci
+#
+#
+# doci2
+#
+#
+# rsum progarm with only 2 elements in the list
+# output should have 0x00000000000000dd in %rax
+#
+.pos 0
+irmovq Stack, %rbp
+rrmovq %rbp, %rsp
+irmovq ele1, %rdi
+call rsum_list:
+halt
+        .align 8
+ele1:
+        .quad 0x00d
+        .quad ele2
+ele2:
+        .quad 0x0d0
+        .quad 0
+rsum_list:
+        pushq  %rbp
+        rrmovq %rsp, %rbp
+        irmovq $32, %r10
+        subq   %r10, %rsp
+        rmmovq %rdi, -24(%rbp)
+        irmovq $0, %r10
+        mrmovq -24(%rbp), %rdx
+        subq    %r10, %rdx
+        jne     L6
+        irmovq $0, %rax
+        jmp     end
+L6: 
+        mrmovq -24(%rbp), %rax
+        mrmovq (%rax), %rax
+        rmmovq %rax, -16(%rbp)
+        mrmovq -24(%rbp), %rax
+        mrmovq  8(%rax), %rax
+        rrmovq %rax, %rdi
+        call    rsum_list
+        rmmovq %rax,-8(%rbp)
+        mrmovq  -8(%rbp), %rax
+        mrmovq  -16(%rbp), %rdx
+        addq    %rdx, %rax
+
+end:
+        rrmovq %rbp, %rsp
+        popq   %rbp
+        ret
+.pos 0x400
+Stack:
+

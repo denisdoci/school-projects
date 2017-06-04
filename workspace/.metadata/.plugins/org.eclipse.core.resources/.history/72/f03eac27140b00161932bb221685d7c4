@@ -1,0 +1,34 @@
+package project7;
+import java.awt.*;
+
+/**  Initial attempt at creating some code to get things going for Project 6
+  * 
+  * THis code contains 2 classes
+  *   Island - the 20x20 area for the Creatures
+  *   Beetle - ojects that not quite what is required but give me a good starting point
+  */
+
+public class Proj7Troya
+{
+  public static void main (String[] args)
+  {
+    // create my island
+    Island island = new Island();
+    
+    // create 20 beetles
+    for (int i = 0 ; i < 5 ; i++)
+    {
+      Beetle b = new Beetle(island);
+    }
+    for (int i = 0 ; i < 100 ; i++){
+    Ant a = new Ant(island);
+    }
+    // run simulation for 20 days
+    for (int i = 0 ; i < 100 ; i++)
+    {
+      GridDisplay.mySleep (250 );
+      island.nextDayBeetle();
+      island.nextDayAnt();
+    }
+  }
+}

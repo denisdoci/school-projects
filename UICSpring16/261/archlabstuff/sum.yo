@@ -1,0 +1,52 @@
+                            | #
+                            | #Denis Doci
+                            | #
+                            | #doci2
+                            | #
+                            | #
+0x000:                      | .pos 0
+0x000: 30f50002000000000000 | irmovq Stack, %rbp
+0x00a: 2054                 | rrmovq %rbp, %rsp 
+0x00c: 30f72000000000000000 | irmovq ele1, %rdi
+0x016: 805000000000000000   | call sum_list    
+0x01f: 00                   | halt   
+0x020:                      | 	.align 8
+0x020:                      | ele1:
+0x020: 0d00000000000000     | 	.quad 0x00d
+0x028: 3000000000000000     | 	.quad ele2
+0x030:                      | ele2:
+0x030: e000000000000000     | 	.quad 0x0e0
+0x038: 4000000000000000     | 	.quad ele3
+0x040:                      | ele3:
+0x040: 000f000000000000     | 	.quad 0xf00
+0x048: 0000000000000000     | 	.quad 0
+                            | 
+0x050:                      | sum_list:
+0x050: a05f                 | 	pushq %rbp
+0x052: 2045                 | 	rrmovq  %rsp, %rbp
+0x054: 4075e8ffffffffffffff | 	rmmovq  %rdi, -24(%rbp)
+0x05e: 30fa0000000000000000 | 	irmovq  $0, %r10
+0x068: 40a5f8ffffffffffffff | 	rmmovq  %r10, -8(%rbp)
+0x072: 70c300000000000000   | 	jmp L2
+0x07b:                      | L3:
+0x07b: 5005e8ffffffffffffff | 	mrmovq -24(%rbp), %rax
+0x085: 50000000000000000000 | 	mrmovq  (%rax), %rax
+0x08f: 5025f8ffffffffffffff | 	mrmovq  -8(%rbp), %rdx
+0x099: 6002                 | 	addq	%rax, %rdx
+0x09b: 4025f8ffffffffffffff | 	rmmovq  %rdx, -8(%rbp)
+0x0a5: 5005e8ffffffffffffff | 	mrmovq -24(%rbp), %rax
+0x0af: 50000800000000000000 | 	mrmovq 8(%rax), %rax
+0x0b9: 4005e8ffffffffffffff | 	rmmovq %rax, -24(%rbp)
+                            | 
+0x0c3:                      | L2:
+0x0c3: 30fa0000000000000000 | 	irmovq  $0, %r10
+0x0cd: 5085e8ffffffffffffff | 	mrmovq -24(%rbp), %r8
+0x0d7: 61a8                 | 	subq	%r10, %r8
+0x0d9: 747b00000000000000   | 	jne	L3
+0x0e2: 5005f8ffffffffffffff | 	mrmovq -8(%rbp), %rax
+0x0ec: b05f                 | 	popq    %rbp
+0x0ee: 90                   | 	ret
+                            | 
+0x200:                      | 	.pos 0x200
+0x200:                      | Stack:
+                            | 

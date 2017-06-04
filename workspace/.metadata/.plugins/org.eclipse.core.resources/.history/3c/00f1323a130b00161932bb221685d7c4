@@ -1,0 +1,104 @@
+package project7;
+
+public class Beetle extends animal
+{
+	private Island isl;
+	private int x;
+	private int y;
+	private int dayLastMoved;
+	private int daysAlive;
+	private int daysSinceEaten=0;
+
+	public Beetle (Island island)
+	{
+		isl = island;
+		x = (int)(Math.random() * island.getRows() );
+		y = (int)(Math.random() * island.getCols() );
+		dayLastMoved = 0;
+
+		island.addBeetle (this, x, y);
+	}
+
+	public void move ()
+	{
+		int nextX = -999;
+		int nextY = -999;
+		int direction = (int)(Math.random() * 4);
+		int spawnDay = 0;
+
+		if (direction == 0) // attempt to move up
+		{
+			nextX = x; nextY = y-1;
+		}
+		if (direction == 1) // attempt to move down
+		{
+			nextX = x; nextY = y+1;
+		}
+		if (direction == 2) // attempt to move left
+		{
+			nextX = x-1; nextY = y;
+		}
+		if (direction == 3) // attempt to move right
+		{
+			nextX = x+1; nextY = y;
+		}
+
+		//System.out.println ("Try to move from (" + x + ", " + y +") to (" + nextX + ", " + nextY + ")" );
+
+		// try to move the beetle to the NEXT position
+		if ( isl.moveBeetle ( x, y, nextX, nextY ) == true)
+		{
+			x = nextX;
+			y = nextY;
+		}
+	}
+
+	public void setDayLastMoved (int dlm)
+	{
+		dayLastMoved = dlm;
+	}
+
+	public int getDayLastMoved ()
+	{
+		return dayLastMoved;
+	}
+	public void aliveAnotherDay(){
+		daysAlive++;
+	}
+	public int getDaysAlive(){
+		return daysAlive;
+	}
+	public void breed()
+	{
+		int nextX = -999;
+		int nextY = -999;
+		int direction = (int)(Math.random() * 4);
+		if (direction == 0) // attempt to move up
+		{
+			nextX = x; nextY = y-1;
+		}
+		if (direction == 1) // attempt to move down
+		{
+			nextX = x; nextY = y+1;
+		}
+		if (direction == 2) // attempt to move left
+		{
+			nextX = x-1; nextY = y;
+		}
+		if (direction == 3) // attempt to move right
+		{
+			nextX = x+1; nextY = y;
+		}
+		if ( isl.canBreed ( x, y, nextX, nextY ) == true)
+		{
+			isl.addBeetle(this, nextX, nextY);
+		}
+
+	}
+	public int getDaysSinceEaten(){
+		return daysSinceEaten; 
+	}
+	public void didNotEat(){
+		 daysSinceEaten++; 
+	}
+}

@@ -1,0 +1,110 @@
+package kkrawc6Proj7;
+
+
+public class Beetle extends Creatures{
+	private Island isl;
+	private int x;
+	private int y;
+	private int notSpawned=0;
+	private int notMoving;
+	private int age;
+	private int notEaten=0;
+
+	public Beetle (Island island)
+	{
+		isl = island;
+		x = (int)(Math.random() * island.getRows() );
+		y = (int)(Math.random() * island.getCols() );
+		notMoving = 0;
+
+		island.addBeetle (this, x, y);
+	}
+
+	public void move ()
+	{
+		int nextX = -999;
+		int nextY = -999;
+		int direction = (int)(Math.random() * 4);
+
+		if (direction == 0) // attempt to move up
+		{
+			nextX = x; nextY = y-1;
+		}
+		if (direction == 1) // attempt to move down
+		{
+			nextX = x; nextY = y+1;
+		}
+		if (direction == 2) // attempt to move left
+		{
+			nextX = x-1; nextY = y;
+		}
+		if (direction == 3) // attempt to move right
+		{
+			nextX = x+1; nextY = y;
+		}
+
+		//System.out.println ("Try to move from (" + x + ", " + y +") to (" + nextX + ", " + nextY + ")" );
+
+		// try to move the Beetle to the NEXT position
+		if ( isl.moveBeetle ( x, y, nextX, nextY ) == true)
+		{
+			x = nextX;
+			y = nextY;
+		}
+	}
+
+
+
+	public int getnotMoving ()
+	{
+		return notMoving;
+	}
+	public void aliveAnotherDay(){
+		age++;
+	}
+	public void didNotEat(){
+		notEaten++; 
+	}
+	public void ate(){
+		notEaten = 0;
+	}
+	public void spawned(){
+		notSpawned = 0;
+	}
+	public void notSpawned(){
+		notSpawned++;
+	}
+	public int getdaysSinceSpawn(){
+		return notSpawned;
+	}
+	public int getage(){
+		return age;
+	}
+	public void spawn()
+	{
+
+		if ( isl.spawning (x, y) == true)
+		{
+			if(isl.isOccupied(x+1, y))
+				isl.addBeetle(this, x+1, y);
+			else if(isl.isOccupied(x-1, y))
+				isl.addBeetle(this, x-1, y);
+			else if(isl.isOccupied(x, y-1))
+				isl.addBeetle(this, x, y-1);
+			else 
+				isl.addBeetle(this, x, y+1);
+		}
+
+	}
+	public int getnotEaten(){
+		return notEaten; 
+	}
+
+	public void setnotMoving (int lastMovd)
+	{
+		notMoving = lastMovd;
+	}
+
+}
+
+

@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Doci2Project3A3</string>
+
+    <string-array name="BasketballTeams">
+        <item>Bulls</item>
+        <item>Nuggets</item>
+        <item>Knicks</item>
+        <item>Warriors</item>
+        <item>Spurs</item>
+        <item>Bucks</item>
+
+    </string-array>
+
+    <string-array name="BasketballWebsites">
+        <item>http://www.nba.com/bulls/?tmd=1</item>
+        <item>http://www.nba.com/nuggets/?tmd=1</item>
+        <item>http://www.nba.com/knicks/?tmd=1</item>
+        <item>http://www.nba.com/warriors/?tmd=1</item>
+        <item>http://www.nba.com/spurs/?tmd=1</item>
+        <item>http://www.nba.com/bucks/?tmd=1</item>
+    </string-array>
+
+
+    <string-array name="BaseballTeams">
+        <item>Cubs</item>
+        <item>Sox</item>
+        <item>Yankees</item>
+        <item>Dodgers</item>
+        <item>Indians</item>
+        <item>BlueJays</item>
+    </string-array>
+
+    <string-array name="BaseballWebsites">
+        <item>http://chicago.cubs.mlb.com/index.jsp?c_id=chc</item>
+        <item>http://chicago.whitesox.mlb.com/index.jsp?c_id=cws</item>
+        <item>http://newyork.yankees.mlb.com/index.jsp?c_id=nyy</item>
+        <item>http://losangeles.dodgers.mlb.com/index.jsp?c_id=la</item>
+        <item>http://cleveland.indians.mlb.com/index.jsp?c_id=cle</item>
+        <item>http://toronto.bluejays.mlb.com/index.jsp?c_id=tor</item>
+    </string-array>
+
+
+</resources>

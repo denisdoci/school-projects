@@ -1,0 +1,8 @@
+1. [a-zA-Z]+
+2. [a-z]*b
+3. ([a-zA-Z]+)\s+\1
+4. (b+(ab+)+)?
+5. ^\d+\b.*\b[a-zA-Z]+$
+6. \bgrotto\b.*\braven\b|\braven\b.*\bgrotto\b
+7. ^[^a-zA-Z]*([a-zA-Z]+)
+

@@ -1,0 +1,263 @@
+package project7;
+
+import java.awt.Color;
+
+public class Island
+{
+	private GridDisplay disp;
+	private Beetle[][] grid;
+	private Ant[][] grid2;
+	private int dayCount;
+	private int rows;
+	private int cols;
+
+	public Island ()
+	{
+		rows = 20;
+		cols = 20;
+
+		disp = new GridDisplay(rows, cols);
+		grid = new Beetle[rows][cols];
+		grid2 = new Ant[rows][cols];
+
+		for (int i = 0 ; i < rows ; i++){
+			for (int j = 0 ; j < cols ; j++)
+				grid[i][j] = null;
+		}
+
+		for (int i = 0 ; i < rows ; i++){
+			for (int j = 0 ; j < cols ; j++)
+				grid2[i][j] = null;
+		}
+
+		dayCount = 0;
+	}
+
+	public int getRows()
+	{
+		return rows;
+	}
+
+	public int getCols()
+	{
+		return cols;
+	}
+	public boolean isOccupiedBeetle (int i, int j)
+	{
+		if (grid[i][j] == null)
+			return false;
+		else
+			return true;
+	}
+	public boolean isOccupiedAnt (int i, int j)
+	{
+		if(i<0 || j<0 || i>19 || j>19){
+			return false;
+		}
+		else if (grid2[i][j] == null)
+			return false;
+		else
+			return true;
+	}
+
+	public boolean isOccupied (int i, int j)
+	{
+		if (grid[i][j] == null  && grid2[i][j] == null)
+			return false;
+		else
+			return true;
+	}
+
+	public void nextDayBeetle()
+	{
+		//dayCount++;
+
+		// loop through the grid positions
+		for (int i = 0 ; i < rows ; i++)
+			for (int j = 0 ; j < cols ; j++)
+			{
+				// System.out.println (i + " " + j + ", " + grid[i][j] != null );
+
+				// make sure grid location contains a beetle and the beetle has not moved this day
+				if ( (isOccupiedBeetle(i,j) == true)  && (grid[i][j].getDayLastMoved() != dayCount) )
+				{
+					// System.out.println (i + " " + j + ", " + grid[i][j].getDayLastMoved() );
+
+					// Access the beetle at this position and try to move it
+					Beetle b = grid[i][j];
+
+					if(canEat(i,j) == true){
+						kill(i,j);
+					}
+
+					else{
+						b.move();
+						b.setDayLastMoved (dayCount);
+					}
+				}
+
+			}
+	}
+	public void nextDayAnt()
+	{
+		dayCount++;
+		System.out.println ("DayCount: " + dayCount);
+
+		for (int i = 0 ; i < rows ; i++)
+			for (int j = 0 ; j < cols ; j++)
+			{
+				// System.out.println (i + " " + j + ", " + grid[i][j] != null );
+
+				// make sure grid location contains a beetle and the beetle has not moved this day
+
+				if ( (isOccupiedAnt(i,j) == true)  && (grid2[i][j].getDayLastMoved() != dayCount) )
+				{
+					// System.out.println (i + " " + j + ", " + grid[i][j].getDayLastMoved() );
+
+					// Access the beetle at this position and try to move it
+					Ant a = grid2[i][j];
+					if(a.getDaysAlive()%3 ==0 && a.getDaysAlive()!=0){
+						a.breed();
+					}
+					else{
+					a.move();
+					a.setDayLastMoved (dayCount);
+					a.aliveAnotherDay();
+					}
+					
+				}
+
+			}
+	}
+
+	public boolean addBeetle (Beetle b, int x, int y)
+	{
+		// make sure x and y are valid
+		if (x < 0 || x >= rows || y < 0 || y >= cols)
+			return false;
+
+		// make sure no beetle is already at that space
+		if ( isOccupied(x, y) == true)
+			return false;
+
+		grid[x][y] = b;
+		disp.setColor (x, y, Color.RED);
+		return true;
+	}
+
+
+	public boolean addAnt (Ant a, int x, int y)
+	{
+		// make sure x and y are valid
+		if (x < 0 || x >= rows || y < 0 || y >= cols)
+			return false;
+
+		// make sure no beetle is already at that space
+		if ( isOccupied(x, y) == true)
+			return false;
+
+		grid2[x][y] = a;
+		disp.setColor (x, y, Color.GREEN);
+		return true;
+	}
+	public boolean moveBeetle (int currX, int currY, int nextX, int nextY)
+	{
+		// make sure x and y positions are both valid
+		if (currX < 0 || currX >= rows || currY < 0 || currY >= cols)
+			return false;
+		if (nextX < 0 || nextX >= rows || nextY < 0 || nextY >= cols)
+			return false;
+
+		// make sure a beetle exists at the CURR space
+		if ( isOccupied(currX, currY) == false)
+			return false;
+		// make sure no beetle is already at the NEXT space
+		if ( isOccupied(nextX, nextY) == true)
+			return false;
+
+		// move the beetle to the new position
+		grid[nextX][nextY] = grid[currX][currY];
+		grid[currX][currY] = null;
+
+		// update the GridDisplay colors to show the Beetle has moved
+		disp.setColor(nextX,nextY, Color.RED);
+		disp.setColor(currX,currY, Color.WHITE);
+		return true;
+	}
+	public boolean canBreed (int currX, int currY, int nextX, int nextY)
+	{
+		// make sure x and y positions are both valid
+		if (currX < 0 || currX >= rows || currY < 0 || currY >= cols)
+			return false;
+		if (nextX < 0 || nextX >= rows || nextY < 0 || nextY >= cols)
+			return false;
+
+		// make sure a beetle exists at the CURR space
+		if ( isOccupied(currX, currY) == false)
+			return false;
+		// make sure no beetle is already at the NEXT space
+		if ( isOccupied(nextX, nextY) == true)
+			return false;
+		
+		return true;
+	}
+	public boolean moveAnt (int currX, int currY, int nextX, int nextY)
+	{
+		// make sure x and y positions are both valid
+		if (currX < 0 || currX >= rows || currY < 0 || currY >= cols)
+			return false;
+		if (nextX < 0 || nextX >= rows || nextY < 0 || nextY >= cols)
+			return false;
+
+		// make sure a beetle exists at the CURR space
+		if ( isOccupied(currX, currY) == false)
+			return false;
+		// make sure no beetle is already at the NEXT space
+		if ( isOccupied(nextX, nextY) == true)
+			return false;
+
+		// move the beetle to the new position
+		grid2[nextX][nextY] = grid2[currX][currY];
+		grid2[currX][currY] = null;
+
+		// update the GridDisplay colors to show the Beetle has moved
+		disp.setColor(nextX,nextY, Color.GREEN);
+		disp.setColor(currX,currY, Color.WHITE);
+		return true;
+	}
+	public void kill(int x, int y){
+		if(isOccupiedAnt(x-1,y)){
+			grid2[x-1][y] = null;
+			moveBeetle(x, y, x-1, y);
+		}
+
+
+		if(isOccupiedAnt(x+1,y)){
+			grid2[x+1][y] = null;
+			moveBeetle(x, y, x+1, y);
+		}
+
+
+		if(isOccupiedAnt(x,y-1)){
+			grid2[x][y-1] = null;
+			moveBeetle(x, y, x, y-1);		
+		}
+
+		if(isOccupiedAnt(x,y+1)){
+			grid2[x][y+1] = null;
+			moveBeetle(x, y, x, y+1);		
+
+		}
+		else return;
+	}
+	public boolean canEat(int x, int y){
+		if(isOccupiedAnt(x-1,y) || isOccupiedAnt(x+1,y) ||
+				isOccupiedAnt(x, y+1) || isOccupiedAnt(x,y-1)){
+			return true;
+		}
+		return false; 
+	}
+
+}
+
+

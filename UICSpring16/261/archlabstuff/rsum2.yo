@@ -1,0 +1,56 @@
+                            | #
+                            | #
+                            | # Denis Doci
+                            | #
+                            | #
+                            | # doci2
+                            | #
+                            | #
+                            | # rsum progarm with only 2 elements in the list
+                            | # output should have 0x00000000000000dd in %rax
+                            | #
+0x000:                      | .pos 0
+0x000: 30f50004000000000000 | irmovq Stack, %rbp
+0x00a: 2054                 | rrmovq %rbp, %rsp
+0x00c: 30f72000000000000000 | irmovq ele1, %rdi
+0x016: 804000000000000000   | call rsum_list:
+0x01f: 00                   | halt
+0x020:                      |         .align 8
+0x020:                      | ele1:
+0x020: 0d00000000000000     |         .quad 0x00d
+0x028: 3000000000000000     |         .quad ele2
+0x030:                      | ele2:
+0x030: d000000000000000     |         .quad 0x0d0
+0x038: 0000000000000000     |         .quad 0
+0x040:                      | rsum_list:
+0x040: a05f                 |         pushq  %rbp
+0x042: 2045                 |         rrmovq %rsp, %rbp
+0x044: 30fa2000000000000000 |         irmovq $32, %r10
+0x04e: 61a4                 |         subq   %r10, %rsp
+0x050: 4075e8ffffffffffffff |         rmmovq %rdi, -24(%rbp)
+0x05a: 30fa0000000000000000 |         irmovq $0, %r10
+0x064: 5025e8ffffffffffffff |         mrmovq -24(%rbp), %rdx
+0x06e: 61a2                 |         subq    %r10, %rdx
+0x070: 748c00000000000000   |         jne     L6
+0x079: 30f00000000000000000 |         irmovq $0, %rax
+0x083: 70e900000000000000   |         jmp     end
+0x08c:                      | L6: 
+0x08c: 5005e8ffffffffffffff |         mrmovq -24(%rbp), %rax
+0x096: 50000000000000000000 |         mrmovq (%rax), %rax
+0x0a0: 4005f0ffffffffffffff |         rmmovq %rax, -16(%rbp)
+0x0aa: 5005e8ffffffffffffff |         mrmovq -24(%rbp), %rax
+0x0b4: 50000800000000000000 |         mrmovq  8(%rax), %rax
+0x0be: 2007                 |         rrmovq %rax, %rdi
+0x0c0: 804000000000000000   |         call    rsum_list
+0x0c9: 4005f8ffffffffffffff |         rmmovq %rax,-8(%rbp)
+0x0d3: 5005f8ffffffffffffff |         mrmovq  -8(%rbp), %rax
+0x0dd: 5025f0ffffffffffffff |         mrmovq  -16(%rbp), %rdx
+0x0e7: 6020                 |         addq    %rdx, %rax
+                            | 
+0x0e9:                      | end:
+0x0e9: 2054                 |         rrmovq %rbp, %rsp
+0x0eb: b05f                 |         popq   %rbp
+0x0ed: 90                   |         ret
+0x400:                      | .pos 0x400
+0x400:                      | Stack:
+                            | 

@@ -1,0 +1,39 @@
+package project7;
+import java.awt.*;
+
+/**  Initial attempt at creating some code to get things going for Project 6
+ * 
+ * THis code contains 2 classes
+ *   Island - the 20x20 area for the Creatures
+ *   Doodlebug - ojects that not quite what is required but give me a good starting point
+ */
+
+public class Proj7Troya
+{
+	public static void main (String[] args)
+	{
+		// create my island
+		Island island = new Island();
+		int sleepTime;
+		//if(!args[0].equals("-") && !args[1].equals("d"){
+		//	System.out.println("-d Flag not found");
+		//	System.exit(0);
+		//  }
+		//   if(!args[0].equals(int))
+		// create 20 Doodlebugs
+		for (int i = 0 ; i < 5 ; i++)
+		{
+			Doodlebug b = new Doodlebug(island);
+		}
+		for (int i = 0 ; i < 100 ; i++){
+			Ant a = new Ant(island);
+		}
+		// run simulation for 20 days
+		for (int i = 0 ; i < 20 ; i++)
+		{
+			GridDisplay.mySleep (500 );
+			island.nextDayDoodlebug();
+			island.nextDayAnt();
+		}
+	}
+}
